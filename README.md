@@ -21,7 +21,14 @@ browser create - real dom
 react create - virtual dom
 react - 1. create virtual dom 2. compare with real dom 3. update real dom
 
-recondiliation - diffing algorithm - compare virtual dom with new virtual dom and update real dom  this process is called reconciliation
+reconciliation - diffing algorithm - compare virtual dom with new virtual dom and update real dom  this process is called reconciliation
 
 useState  - for controlled
 useRef - for uncontrolled
+
+
+<!-- !dynamic key creation -->
+=> by []
+
+<!-- !speard operator -->
+=> ...obj
