@@ -1,5 +1,7 @@
 import React from 'react'
 import InlineCss from './all-topic/ReactCss/InlineCss'
+import TodoWrapper from './all-topic/10_todoApp/TodoWrapper'
+// import Card from './all-topic/ReactCss/Card'
 // import ControlledForm3 from './all-topic/08_ControlledForms/ControlledForm3'
 // import ControllerForm from './all-topic/08_ControlledForms/ControllerForm'
 // import Parent from './all-topic/topic-props/Parent'
@@ -19,7 +21,11 @@ function App() {
     {/* <ControllerForm/> */}
    {/* <ControlledForm3/> */}
    {/* <ControlledForm4/> */}
-   <InlineCss/>
+   {/* <InlineCss/> */}
+   {/* <Card/>
+   <Card/> */}
+
+   <TodoWrapper/>
     </div>
   )
 }
