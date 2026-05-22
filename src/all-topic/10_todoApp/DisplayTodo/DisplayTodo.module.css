@@ -1,2 +1,8 @@
- 
-
+.arrayEle{
+   background-color: antiquewhite; 
+}
+.element{
+    font-size: 20px;
+    padding: 0.5rem 0.2rem;
+    
+}

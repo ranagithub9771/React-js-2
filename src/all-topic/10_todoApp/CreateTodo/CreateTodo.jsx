@@ -2,7 +2,7 @@ import style from "./CreateTodo.module.css";
 
 import React from "react";
 
-export default function CreateTodo({todo, setTodo, handleCreateTodo}) {
+export default function CreateTodo({todo, setTodo, handleCreateTodo, editTodoId}) {
   return (
     <form className={style.todoForm} onSubmit={handleCreateTodo}>
       <input
@@ -13,7 +13,7 @@ export default function CreateTodo({todo, setTodo, handleCreateTodo}) {
         value={todo}
         onChange={(e)=> setTodo(e.target.value)}
       ></input>
-      <button>Add</button>
+      <button>{editTodoId ? "Update" : "Create"}</button>
     </form>
   );
 }

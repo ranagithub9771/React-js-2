@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import InlineCss from './all-topic/ReactCss/InlineCss'
-import TodoWrapper from './all-topic/10_todoApp/TodoWrapper'
+// import TodoWrap from './all-topic/Todo_Practice/TodoWrap'
+// import TodoWrapper from './all-topic/10_todoApp/TodoWrapper'
+import UncontrolledForm from './all-topic/UncontrolledForm/UncontrolledForm'
+import LifeCycleCBC from './all-topic/12_LifeCycle/LifeCycleCBC'
+import UncontrolledFormPra from './all-topic/UncontrolledForm/UncontrolledFormPra';
 // import Card from './all-topic/ReactCss/Card'
 // import ControlledForm3 from './all-topic/08_ControlledForms/ControlledForm3'
 // import ControllerForm from './all-topic/08_ControlledForms/ControllerForm'
@@ -12,6 +16,10 @@ import TodoWrapper from './all-topic/10_todoApp/TodoWrapper'
 
 
 function App() {
+const [toggle, setToggle] = useState(false);
+
+const handleToggle = ()=> setToggle((prev) => !prev);
+
   return (
     <div>
       {/* <Parent/> */}
@@ -25,7 +33,12 @@ function App() {
    {/* <Card/>
    <Card/> */}
 
-   <TodoWrapper/>
+   {/* <TodoWrapper/> */}
+   {/* <TodoWrap/> */}
+   {/* <UncontrolledForm/> */}
+{/* <UncontrolledFormPra/> */}
+   <button onClick={handleToggle}> Toggle me</button>
+   {toggle && <LifeCycleCBC/>}
     </div>
   )
 }

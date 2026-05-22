@@ -1,11 +1,361 @@
-.wrapper{
-height: 100vh;
-width: 100%;
-background-color: whitesmoke;
-padding: 100px;
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap')
+/* ============================================
+   TODO APP — Soft Neon / Glassmorphism Theme
+   Color palette:
+     Background : #0f0f1a  (deep navy-black)
+     Surface    : rgba(255,255,255,0.05)
+     Primary    : #7c3aed  (vivid violet)
+     Accent     : #06b6d4  (cyan)
+     Success    : #10b981  (emerald)
+     Text-hi    : #f1f5f9
+     Text-lo    : #94a3b8
+   ============================================ */
+
+/* ── Root tokens ── */
+.wrapper {
+  --bg: #0f0f1a;
+  --surface: rgba(255, 255, 255, 0.055);
+  --surface-hover: rgba(255, 255, 255, 0.09);
+  --border: rgba(255, 255, 255, 0.1);
+  --primary: #7c3aed;
+  --primary-glow: rgba(124, 58, 237, 0.45);
+  --accent: #06b6d4;
+  --accent-glow: rgba(6, 182, 212, 0.35);
+  --success: #10b981;
+  --danger: #f43f5e;
+  --text-hi: #f1f5f9;
+  --text-lo: #94a3b8;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --font-display: 'Syne', 'Helvetica Neue', sans-serif;
+  --font-body: 'DM Sans', 'Helvetica Neue', sans-serif;
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.heading{
-font-size: 40px;
-font-family: fantasy;
-letter-spacing: 0.2rem;
+
+/* ── Google Fonts import (works via @import in CSS Modules) ── */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ── Page shell ── */
+.wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 20px 80px;
+  background-color: var(--bg);
+
+  /* Layered radial glows for depth */
+  background-image:
+    radial-gradient(ellipse 70% 50% at 20% 10%,  rgba(124, 58, 237, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 40% at 80% 85%,  rgba(6, 182, 212, 0.14)  0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 55% 45%,  rgba(16, 185, 129, 0.07) 0%, transparent 50%);
+
+  font-family: var(--font-body);
+  color: var(--text-hi);
+
+  /* Subtle noise grain */
+  isolation: isolate;
+}
+
+.wrapper::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Heading ── */
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-align: center;
+  margin-bottom: 40px;
+
+  /* Gradient text */
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 55%, #e879f9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  /* Glow behind text */
+  filter: drop-shadow(0 0 28px rgba(124, 58, 237, 0.5));
+
+  animation: fadeSlideDown 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Card container (shared by CreateTodo & DisplayTodo) ── */
+/* Apply to any direct child section/div you wrap inside TodoWrapper */
+.wrapper > * {
+  width: 100%;
+  max-width: 560px;
+}
+
+/* ── Keyframes ── */
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--primary-glow); }
+  50%       { box-shadow: 0 0 0 8px transparent; }
+}
+
+/* ══════════════════════════════════════════
+   UTILITY CLASSES
+   (use these inside CreateTodo / DisplayTodo
+    module files, or re-export them)
+   ══════════════════════════════════════════ */
+
+/* Glass card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: var(--shadow);
+  padding: 28px 26px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+  border-color: rgba(124, 58, 237, 0.35);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(124, 58, 237, 0.15);
+}
+
+/* Input field */
+.input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  font-size: 0.975rem;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.input::placeholder { color: var(--text-lo); }
+
+.input:focus {
+  border-color: var(--primary);
+  background: rgba(124, 58, 237, 0.08);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+/* Primary button */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 26px;
+  background: linear-gradient(135deg, var(--primary), #9333ea);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+  box-shadow: 0 4px 18px var(--primary-glow);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.12);
+  box-shadow: 0 8px 28px var(--primary-glow);
+}
+
+.btnPrimary:active {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+
+/* Edit mode: accent button variant */
+.btnEdit {
+  background: linear-gradient(135deg, var(--accent), #0891b2);
+  box-shadow: 0 4px 18px var(--accent-glow);
+}
+
+.btnEdit:hover {
+  box-shadow: 0 8px 28px var(--accent-glow);
+}
+
+/* Icon button (edit / delete actions on todo items) */
+.btnIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-lo);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition),
+              background var(--transition), transform var(--transition);
+  flex-shrink: 0;
+}
+
+.btnIcon:hover {
+  transform: scale(1.12);
+}
+
+.btnIconEdit:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(6, 182, 212, 0.1);
+}
+
+.btnIconDelete:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+  background: rgba(244, 63, 94, 0.1);
+}
+
+/* Todo list item */
+.todoItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: background var(--transition), border-color var(--transition),
+              transform var(--transition);
+  animation: fadeSlideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.todoItem:hover {
+  background: var(--surface-hover);
+  border-color: rgba(124, 58, 237, 0.25);
+  transform: translateX(4px);
+}
+
+/* Numbering / index badge */
+.todoBadge {
+  min-width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--primary), #9333ea);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px var(--primary-glow);
+}
+
+/* Todo text */
+.todoText {
+  flex: 1;
+  font-size: 0.95rem;
+  color: var(--text-hi);
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+/* Empty state */
+.emptyState {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-lo);
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+}
+
+.emptyState span {
+  display: block;
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+  margin: 8px 0;
+}
+
+/* Scrollable todo list */
+.todoList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124, 58, 237, 0.4) transparent;
+}
+
+.todoList::-webkit-scrollbar        { width: 4px; }
+.todoList::-webkit-scrollbar-track  { background: transparent; }
+.todoList::-webkit-scrollbar-thumb  {
+  background: rgba(124, 58, 237, 0.4);
+  border-radius: 4px;
+}
+
+/* Count badge */
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 99px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-left: 8px;
+  box-shadow: 0 0 10px var(--primary-glow);
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+
+/* Section label */
+.sectionLabel {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 36px 14px 60px;
+  }
+
+  .card {
+    padding: 20px 16px;
+  }
 }
